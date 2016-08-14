@@ -91,7 +91,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
                 public void run() {
                     // running in UI thread
                     Log.d(TAG, "runnable in UI thread");
-                    if (!mRequestMap.get(target).equals(url) || mHasQuit) {
+                    if (!url.equals(mRequestMap.get(target)) || mHasQuit) {
                         Log.d(TAG, "return from ui thread: url=" + url +
                                 ",mHasQuit=" + mHasQuit);
                         return;
