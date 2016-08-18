@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -25,7 +24,7 @@ import java.util.List;
 /**
  * Created by niedaocai on 8/2/16.
  */
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends VisibleFragment {
     private static final String TAG = "PhotoGalleryFragment";
     private RecyclerView mPhotoRecyclerView;
     private List<GalleryItem> mItems = new ArrayList<>();
@@ -48,7 +47,7 @@ public class PhotoGalleryFragment extends Fragment {
                 new ThumbnailDownloader.ThumbnailDownloadListener<PhotoHolder>() {
                     @Override
                     public void onThumbnailDownloaded(PhotoHolder target, Bitmap thumbnail) {
-                        Log.d(TAG, "onThumbnailDownloaded() called");
+                        //Log.d(TAG, "onThumbnailDownloaded() called");
                         Drawable drawable = new BitmapDrawable(getResources(), thumbnail);
                         target.bindDrawable(drawable);
                     }
@@ -56,7 +55,7 @@ public class PhotoGalleryFragment extends Fragment {
 
         mThumbnailDownloader.start();
         mThumbnailDownloader.getLooper();
-        Log.d(TAG, "Background thread started");
+        Log.i(TAG, "Background thread started");
     }
 
     @Override
@@ -67,13 +66,13 @@ public class PhotoGalleryFragment extends Fragment {
         mPhotoRecyclerView = (RecyclerView) v
                 .findViewById(R.id.fragment_photo_gallery_recycler_view);
         mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        //setupAdapter();
+        setupAdapter();
         return v;
     }
 
     private void setupAdapter() {
         if (isAdded()) {
-            Log.d(TAG, "setupAdapter() called");
+            //Log.d(TAG, "setupAdapter() called");
             mPhotoRecyclerView.setAdapter(new PhotoAdapter(mItems));
         }
     }
@@ -102,7 +101,7 @@ public class PhotoGalleryFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                Log.d(TAG, "QueryTextSubmit: " + s);
+                //Log.d(TAG, "QueryTextSubmit: " + s);
                 QueryPreferences.setStoredQuery(getActivity(), s);
                 updateItems();
                 return true;
@@ -110,7 +109,7 @@ public class PhotoGalleryFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Log.d(TAG, "QueryTextChange: " + s);
+                //Log.d(TAG, "QueryTextChange: " + s);
                 return false;
             }
         });
